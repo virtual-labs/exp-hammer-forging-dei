@@ -2,37 +2,88 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "Q1. Which is the correct statement about hot working process?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Rapid and economical process",
+        "b": "Fine surface finish of the product",
+        "c": "Less tooling and handling costs",
+        "d": "Long life of the working tools"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Correct. Hot working is performed above the recrystallization temperature. The yield strength of the material decreases, allowing for rapid deformation with less energy, making it economical for large shape changes.",
+        "b": "Incorrect. Hot working causes oxidation and scaling on the surface, leading to a poor surface finish compared to cold working.",
+        "c": "Incorrect. Handling costs are high due to the need for heating equipment, and tooling costs are high due to thermal resistance requirements.",
+        "d": "Incorrect. The high temperatures cause thermal shock and fatigue, which reduces the life of the working tools."
       },
       "correctAnswer": "a",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "Q2. forging of steel specimen is normally done at a temperature of:?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "400&deg; C",
+        "b": "800&deg; C",
+        "c": "1100&deg; C",
+        "d": "1500&deg; C"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Incorrect. This is too low for hot forging steel.",
+        "b": "Incorrect. This is often below the full recrystallization range for many steels.",
+        "c": "Correct. Steel is typically hot forged at temperatures between 950&deg;C and 1250&deg;C. 1100&deg;C allows the metal to be plastic enough for shaping without melting.",
+        "d": "Incorrect. This is too close to the melting point (solidus temperature) of steel and may damage the material."
       },
       "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Q3. In drop forging, forging is done by dropping:?",
+      "answers": {
+        "a": "The work piece at very velocity",
+        "b": "The hammer at high velocity",
+        "c": "The die with hammer at high velocity",
+        "d": "A weight on hammer to produce the requisite impact"
+      },
+      "explanations": {
+        "a": "Incorrect. The workpiece remains stationary on the lower anvil.",
+        "b": "Partially correct, but the hammer carries the die.",
+        "c": "Correct. In drop forging, the upper half of the die is fastened to the hammer (ram). The forming happens when this assembly is dropped or powered down at high velocity onto the stationary lower die.",
+        "d": "Incorrect definition."
+      },
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Q4. Spot the odd one out:",
+      "answers": {
+        "a": "Swagging",
+        "b": "Cold Rolling",
+        "c": "Forging",
+        "d": "Hot extrusion"
+      },
+      "explanations": {
+        "a": "Incorrect. Swaging is a bulk forming process often done hot.",
+        "b": "Correct. Cold Rolling is explicitly a cold working process (done below recrystallization temperature). Forging, Hot Extrusion, and Swaging are typically categorized as hot working or bulk deformation processes in this context.",
+        "c": "Incorrect. Forging is typically a hot working process.",
+        "d": "Incorrect. Hot extrusion is a hot working process."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Q5. Identify the process in which the metal is shaped by means by intermittent blows on it:",
+      "answers": {
+        "a": "Hammering",
+        "b": "Peening",
+        "c": "Swagging",
+        "d": "Parkerizing"
+      },
+      "explanations": {
+        "a": "Correct. Hammering (or smithing) involves shaping the metal using repeated, intermittent impact blows.",
+        "b": "Incorrect. Peening uses blows for surface treatment (to induce compressive stress), not for primary shaping.",
+        "c": "Incorrect. Swaging uses radial forces to reduce diameter.",
+        "d": "Incorrect. Parkerizing is a chemical phosphate coating process for corrosion resistance."
+      },
+      "correctAnswer": "a",
       "difficulty": "beginner"
     }
   ]
