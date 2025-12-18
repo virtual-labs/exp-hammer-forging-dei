@@ -1,5 +1,5 @@
-### Procedure
-# Standard Operating Procedure: Hot Forging (Hammering) Process
+# Procedure
+## Standard Operating Procedure: Hot Forging (Hammering) Process
 
 **Process Classification:** Manufacturing Technology / Bulk Deformation
 **Process Type:** Open Die Forging (Smith Forging)
@@ -7,10 +7,10 @@
 
 ---
 
-## 1. Process Overview
+### 1. Process Overview
 Hammering, technically referred to as Smith Forging or Open Die Forging, involves the shaping of metal through the application of localized compressive forces via a handheld or power hammer. The process is predominantly conducted as a "Hot Working" operation, performed above the metal's recrystallization temperature to minimize flow stress and maximize ductility.
 
-## 2. Safety Protocols
+### 2. Safety Protocols
 Strict adherence to safety standards is mandatory during high-temperature manufacturing processes.
 
 * **Personal Protective Equipment (PPE):** Operators must utilize heat-resistant Kevlar/leather gloves, leather aprons, face shields or safety goggles, and metatarsal-guarded safety boots.
@@ -19,7 +19,7 @@ Strict adherence to safety standards is mandatory during high-temperature manufa
 
 ---
 
-## 3. Equipment and Tooling
+### 3. Equipment and Tooling
 The following apparatus is required for the execution of manual hot forging:
 
 * **Heating Element:** Forge (Gas-fired, Coal, or Induction) capable of sustaining temperatures >1000°C.
@@ -30,14 +30,11 @@ The following apparatus is required for the execution of manual hot forging:
 
 
 
-[Image of anvil anatomy diagram]
-
-
 ---
 
-## 4. Operational Procedure
+### 4. Operational Procedure
 
-### Phase 1: Billet Preparation and Heating
+#### Phase 1: Billet Preparation and Heating
 1.  **Material Inspection:** Verify the raw stock (billet) is free from surface cracks or excessive rust.
 2.  **Thermal Cycle:** Insert the billet into the forge's "hot zone."
 3.  **Temperature Monitoring:** Heat the low-carbon steel specimen to the austenitic range (approximately 800°C – 1150°C).
@@ -46,7 +43,7 @@ The following apparatus is required for the execution of manual hot forging:
 
 
 
-### Phase 2: Deformation (The Hammering Cycle)
+#### Phase 2: Deformation (The Hammering Cycle)
 1.  **Extraction:** Remove the billet using tongs, ensuring a firm grip to resist impact, and transfer immediately to the anvil face.
 2.  **Primary Shaping:** Apply compressive impact force using the hammer. Common operations include:
     * **Drawing Out:** Reducing the cross-sectional area while increasing length.
@@ -56,19 +53,19 @@ The following apparatus is required for the execution of manual hot forging:
 
 
 
-### Phase 3: Finishing and Dimensioning
+#### Phase 3: Finishing and Dimensioning
 1.  **Planishing:** Utilize light, rapid blows at lower temperatures (dull red) to smooth surface irregularities and refine the geometric profile.
 2.  **Dimensional Verification:** Check final dimensions against engineering drawings using calipers, accounting for thermal contraction (approx. 1-2% shrinkage upon cooling).
 
 ---
 
-## 5. Post-Processing and Cooling
+### 5. Post-Processing and Cooling
 * **Normalization:** Place the forged component on a bed of sand or dry brick to allow for uniform air cooling. This restores the grain structure and relieves internal stresses induced by mechanical working.
 * **Quenching (Specific Applications):** If martensitic transformation is required for hardness, rapid cooling in oil or water may be performed, depending on the carbon equivalence of the steel.
 
 ---
 
-## 6. Defect Analysis
+### 6. Defect Analysis
 Common metallurgical defects arising from improper procedure:
 
 | Defect | Technical Cause | Corrective Action |
