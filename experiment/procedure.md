@@ -1,5 +1,5 @@
 # Procedure
-## Standard Operating Procedure: Hot Forging (Hammering) Process
+ **Standard Operating Procedure: Hot Forging (Hammering) Process**
 
 **Process Classification:** Manufacturing Technology / Bulk Deformation
 **Process Type:** Open Die Forging (Smith Forging)
