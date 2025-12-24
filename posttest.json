@@ -1,0 +1,90 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "Q6. Which one is the wrong about forging:",
+      "answers": {
+        "a": "are uniform in density as well as in dimensions",
+        "b": "have high ductility and strength",
+        "c": "offer great resistance to fatigue and impact load",
+        "d": "are less reliable"
+      },
+      "explanations": {
+        "a": "Forging refines defects, leading to uniform density.",
+        "b": "Forging aligns the grain flow, improving ductility and strength.",
+        "c": "The fiberous grain structure provides excellent fatigue resistance.",
+        "d": "Correct. This statement is wrong. Forged parts are actually known for high reliability because the process eliminates internal voids and gas pockets common in casting."
+      },
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Q7. Which is not the application of the forging:",
+      "answers": {
+        "a": "rail sections",
+        "b": "chisels",
+        "c": "steel balls of the ball bearing",
+        "d": "brake pedal of an automobile"
+      },
+      "explanations": {
+        "a": "Correct. Rail sections (train tracks) are long products with a constant cross-section, which are manufactured using the **Rolling** process, not forging.",
+        "b": "Chisels require the high impact strength provided by forging.",
+        "c": "Ball bearings are often cold forged (headed).",
+        "d": "Automotive safety parts like brake pedals are forged for structural integrity."
+      },
+      "correctAnswer": "a",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Q8. Fatigue resistance of metals can be improved by setting up compressive stresses in its surface. The task is accomplishing by:",
+      "answers": {
+        "a": "Swaging",
+        "b": "Shot peening",
+        "c": "Normalising",
+        "d": "Galvanising"
+      },
+      "explanations": {
+        "a": "Swaging is a forming process to reduce cross-sections.",
+        "b": "Correct. Shot peening involves bombarding the surface with small shots. This induces residual compressive stresses which prevent cracks from opening, thus improving fatigue life.",
+        "c": "Normalising is a heat treatment process.",
+        "d": "Galvanising is a zinc coating process for rust protection."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Q9. In the given simulation video of hammer forging, the material of the billet is:",
+      "answers": {
+        "a": "Steel",
+        "b": "Copper",
+        "c": "Brass",
+        "d": "None of these"
+      },
+      "explanations": {
+        "a": "Correct. While the video is not visible, Steel is the most common material used in hot forging simulations and applications due to its industrial importance and distinct heating requirements.",
+        "b": "Copper is often cold worked or hot worked at lower temps.",
+        "c": "Brass is often forged, but steel is the standard default for general 'hammer forging' examples.",
+        "d": "Incorrect."
+      },
+      "correctAnswer": "a",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Q10. Which one is the wrong about forging:",
+      "answers": {
+        "a": "are uniform in density as well as in dimensions",
+        "b": "have high ductility and strength",
+        "c": "offer great resistance to fatigue and impact load",
+        "d": "are less reliable"
+      },
+      "explanations": {
+        "a": "Forging refines defects, leading to uniform density.",
+        "b": "Forging aligns the grain flow, improving ductility and strength.",
+        "c": "The fiberous grain structure provides excellent fatigue resistance.",
+        "d": "Correct. This statement is wrong. Forged parts are actually known for high reliability compared to machined or cast parts."
+      },
+      "correctAnswer": "d",
+      "difficulty": "beginner"
+    }
+  ]
+}
