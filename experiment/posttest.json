@@ -2,7 +2,7 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "Q6. Which one is the wrong about forging:",
+      "question": "Q1. Which one is the wrong about forging:",
       "answers": {
         "a": "are uniform in density as well as in dimensions",
         "b": "have high ductility and strength",
@@ -19,7 +19,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "Q7. Which is not the application of the forging:",
+      "question": "Q2. Which is not the application of the forging:",
       "answers": {
         "a": "rail sections",
         "b": "chisels",
@@ -36,7 +36,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "Q8. Fatigue resistance of metals can be improved by setting up compressive stresses in its surface. The task is accomplishing by:",
+      "question": "Q3. Fatigue resistance of metals can be improved by setting up compressive stresses in its surface. The task is accomplishing by:",
       "answers": {
         "a": "Swaging",
         "b": "Shot peening",
@@ -53,7 +53,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "Q9. In the given simulation video of hammer forging, the material of the billet is:",
+      "question": "Q4. In the given simulation video of hammer forging, the material of the billet is:",
       "answers": {
         "a": "Steel",
         "b": "Copper",
@@ -70,7 +70,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "Q10. Which one is the wrong about forging:",
+      "question": "Q5. Which one is the wrong about forging:",
       "answers": {
         "a": "are uniform in density as well as in dimensions",
         "b": "have high ductility and strength",
