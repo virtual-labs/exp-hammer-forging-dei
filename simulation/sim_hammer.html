@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual Blacksmithing Lab</title>
+<style>
+    :root {
+        --primary: #d97706; /* Amber-600 */
+        --primary-hover: #b45309;
+        --secondary: #475569; /* Slate-600 */
+        --bg: #f8fafc;
+        --text: #1e293b;
+        --danger: #ef4444;
+        --success: #22c55e;
+    }
+
+    body {
+        font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+        background: white;
+        width: 100%;
+        padding: 20px 0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        border-bottom: 4px solid var(--primary);
+        position: relative;
+        z-index: 10;
+    }
+
+    h1 { margin: 0; font-size: 1.8rem; color: var(--text); text-transform: uppercase; letter-spacing: 1.5px; }
+    h1 span { color: var(--primary); }
+    p.subtitle { margin: 5px 0 0; color: var(--secondary); font-size: 0.95rem; }
+
+    /* LAYOUT */
+    .main-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+        max-width: 1200px;
+        width: 95%;
+        margin: 30px auto;
+        justify-content: center;
+    }
+
+    /* CANVAS AREA */
+    .canvas-wrapper {
+        flex: 2;
+        min-width: 340px;
+        background: #e2e8f0;
+        border-radius: 16px;
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.05), 0 10px 25px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #cbd5e1;
+    }
+
+    canvas {
+        width: 100%;
+        height: 500px;
+        display: block;
+        cursor: pointer;
+    }
+
+    /* DASHBOARD (Right Panel) */
+    .dashboard {
+        flex: 1;
+        min-width: 300px;
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        border-top: 6px solid var(--secondary);
+    }
+
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        background: #f1f5f9;
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .metric-box {
+        text-align: center;
+    }
+    .metric-label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; font-weight: bold; }
+    .metric-value { font-size: 1.4rem; font-weight: 800; color: var(--text); }
+    .metric-unit { font-size: 0.9rem; color: #94a3b8; }
+
+    /* PROGRESS BARS */
+    .progress-group label { display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600; margin-bottom: 5px; }
+    .bar-container { height: 12px; background: #e2e8f0; border-radius: 10px; overflow: hidden; }
+    .bar-fill { height: 100%; transition: width 0.2s, background-color 0.2s; width: 0%; }
+    
+    /* CONTROLS */
+    .controls {
+        display: flex;
+        gap: 15px;
+        margin-top: auto;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 18px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        text-transform: uppercase;
+    }
+
+    .btn-heat {
+        background: #fff7ed;
+        color: #d97706;
+        border: 2px solid #fdba74;
+    }
+    .btn-heat:hover { background: #ffedd5; transform: translateY(-2px); }
+    .btn-heat:active { background: #fed7aa; transform: scale(0.98); }
+    .btn-heat.active { background: #fb923c; color: white; border-color: #f97316; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
+
+    .btn-hammer {
+        background: #f8fafc;
+        color: #475569;
+        border: 2px solid #cbd5e1;
+    }
+    .btn-hammer:hover { background: #f1f5f9; border-color: #94a3b8; transform: translateY(-2px); }
+    .btn-hammer:active { transform: scale(0.95); }
+
+    /* LOG */
+    .log-window {
+        height: 120px;
+        background: #0f172a;
+        color: #22c55e;
+        border-radius: 8px;
+        padding: 10px;
+        font-family: monospace;
+        font-size: 0.85rem;
+        overflow-y: auto;
+        border: 1px solid #334155;
+    }
+    .log-entry { margin-bottom: 4px; border-bottom: 1px solid #1e293b; padding-bottom: 2px; }
+    .log-warn { color: #fbbf24; font-weight: bold; animation: blink 1s infinite; }
+    .log-err { color: #ef4444; }
+
+    @keyframes blink { 50% { opacity: 0.7; } }
+
+    /* OVERLAY (Game Over) */
+    #overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(255,255,255,0.9);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 20;
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    
+    .overlay-content {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        text-align: center;
+        border: 1px solid #e2e8f0;
+    }
+    .overlay-title { font-size: 2rem; margin-bottom: 10px; font-weight: 800; }
+    .overlay-msg { font-size: 1.1rem; color: #64748b; margin-bottom: 25px; }
+    .btn-restart {
+        background: var(--text); color: white; padding: 12px 30px; border-radius: 50px;
+        font-weight: bold; border: none; cursor: pointer; font-size: 1rem;
+        transition: 0.2s;
+    }
+    .btn-restart:hover { transform: scale(1.05); background: var(--primary); }
+
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Virtual <span>Blacksmith</span> Lab</h1>
+    <p class="subtitle">Master the art of Hammer Forging through temperature control</p>
+</header>
+
+<div class="main-container">
+    
+    <!-- LEFT: CANVAS -->
+    <div class="canvas-wrapper">
+        <canvas id="simCanvas"></canvas>
+        
+        <div id="overlay">
+            <div class="overlay-content">
+                <div class="overlay-title" id="endTitle">Game Over</div>
+                <div class="overlay-msg" id="endMsg">Something went wrong.</div>
+                <button class="btn-restart" onclick="resetSim()">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT: CONTROLS -->
+    <div class="dashboard">
+        
+        <div class="metrics-grid">
+            <div class="metric-box">
+                <div class="metric-label">Temperature</div>
+                <div class="metric-value" id="tempVal">25</div>
+                <div class="metric-unit">°Celsius</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-label">Integrity</div>
+                <div class="metric-value" id="intVal">100</div>
+                <div class="metric-unit">%</div>
+            </div>
+        </div>
+
+        <div class="progress-group">
+            <label><span>Shape Progress</span> <span id="shapeTxt">0%</span></label>
+            <div class="bar-container">
+                <div class="bar-fill" id="shapeBar" style="width: 0%; background: var(--primary);"></div>
+            </div>
+        </div>
+
+        <div class="log-window" id="logBox">
+            <div class="log-entry">> Simulation initialized...</div>
+            <div class="log-entry">> Material: Mild Steel</div>
+            <div class="log-entry" style="color:#0ea5e9;">> MAX TEMPERATURE: 1500°C</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-heat" id="heatBtn" 
+                onmousedown="startHeat()" onmouseup="stopHeat()" 
+                ontouchstart="startHeat()" ontouchend="stopHeat()">
+                <span>🔥 Hold to Heat</span>
+                <small>Move to Furnace</small>
+            </button>
+            <button class="btn btn-hammer" id="hammerBtn" onclick="strikeHammer()">
+                <span>🔨 Strike</span>
+                <small>Shape on Anvil</small>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    /** * VIRTUAL BLACKSMITH ENGINE */
+
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // UI Elements
+    const ui = {
+        temp: document.getElementById('tempVal'),
+        integrity: document.getElementById('intVal'),
+        shapeBar: document.getElementById('shapeBar'),
+        shapeTxt: document.getElementById('shapeTxt'),
+        log: document.getElementById('logBox'),
+        heatBtn: document.getElementById('heatBtn'),
+        overlay: document.getElementById('overlay'),
+        endTitle: document.getElementById('endTitle'),
+        endMsg: document.getElementById('endMsg')
+    };
+
+    // Game State
+    let state = {
+        temp: 25,       // Celsius
+        integrity: 100, // %
+        shape: 0,       // %
+        isHeating: false,
+        coolingRate: 0.8,
+        heatRate: 8,
+        gameOver: false,
+        warned: false,
+        
+        // Visual State
+        billetX: 0, 
+        targetX: 0, 
+        billetWidth: 60,
+        billetHeight: 30,
+        shake: 0,
+        
+        // Hammer Animation
+        hammerAngle: -Math.PI / 4, // Resting Angle (-45deg)
+        striking: false
+    };
+
+    // Visual Assets & Particles
+    let particles = [];
+
+    // --- RESIZE HANDLING ---
+    function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        if(!state.isHeating) state.billetX = canvas.width * 0.7;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // --- GAME LOOP ---
+    function loop() {
+        if(state.gameOver) return;
+        updatePhysics();
+        updateVisuals();
+        draw();
+        requestAnimationFrame(loop);
+    }
+
+    // --- PHYSICS ENGINE ---
+    function updatePhysics() {
+        // Temperature Physics
+        if(state.isHeating) {
+            state.temp += state.heatRate;
+            state.targetX = canvas.width * 0.25; // Move to Furnace
+        } else {
+            if(state.temp > 25) state.temp -= state.coolingRate;
+            state.targetX = canvas.width * 0.7; // Move to Anvil
+        }
+
+        // Max Temp Warning
+        if(state.temp > 1350 && !state.warned) {
+            log("⚠️ WARNING: APPROACHING MAX TEMP!", "warn");
+            state.warned = true;
+        }
+        if(state.temp < 1300) state.warned = false;
+
+        // Melting Point
+        if(state.temp > 1500) {
+            failGame("Melted!", "You overheated the steel and it turned into a liquid puddle. Max temp exceeded.");
+        }
+
+        // Smooth Billet Movement
+        state.billetX += (state.targetX - state.billetX) * 0.1;
+        
+        // Update UI Numbers
+        ui.temp.innerText = Math.floor(state.temp);
+        ui.integrity.innerText = Math.floor(state.integrity);
+        
+        // Visual Shake Decay
+        if(state.shake > 0) state.shake *= 0.9;
+        if(state.shake < 0.5) state.shake = 0;
+
+        // Hammer Animation (Swing Logic)
+        if(state.striking) {
+            // Swing Down Fast
+            state.hammerAngle += 0.5; 
+            if(state.hammerAngle >= 0) {
+                // Hit!
+                state.hammerAngle = 0;
+                applyHitEffect();
+                state.striking = false;
+            }
+        } else {
+            // Return to Rest (Slow)
+            let restAngle = -Math.PI / 3;
+            state.hammerAngle += (restAngle - state.hammerAngle) * 0.1;
+        }
+    }
+
+    // --- CONTROLS ---
+    function startHeat() {
+        if(state.gameOver) return;
+        state.isHeating = true;
+        ui.heatBtn.classList.add('active');
+    }
+
+    function stopHeat() {
+        state.isHeating = false;
+        ui.heatBtn.classList.remove('active');
+    }
+
+    function strikeHammer() {
+        if(state.gameOver) return;
+        
+        // Must be on anvil
+        if(Math.abs(state.billetX - canvas.width * 0.7) > 50) {
+            log("Wait for billet to reach anvil!", "warn");
+            return;
+        }
+
+        // Trigger Animation
+        if(!state.striking) {
+            state.striking = true;
+        }
+    }
+
+    function applyHitEffect() {
+        state.shake = 15;
+
+        // Physics Logic
+        if(state.temp < 700) {
+            // Cold Working (Bad)
+            state.integrity -= 15;
+            log("CLANG! Too cold! Metal is cracking.", "err");
+            spawnParticles(state.billetX, canvas.height * 0.65, 5, "dust");
+        } else if(state.temp >= 700 && state.temp <= 900) {
+            // Warm (Okay)
+            state.shape += 4;
+            log("Thud. Moving slowly...", "warn");
+        } else if(state.temp > 900 && state.temp < 1300) {
+            // Hot (Perfect)
+            state.shape += 10;
+            log("BANG! Perfect deformation.", "success");
+            spawnParticles(state.billetX, canvas.height * 0.65, 12, "spark");
+            
+            // Deform Visual
+            state.billetWidth += 4;
+            state.billetHeight -= 1;
+        } else {
+            // Too Hot
+            state.integrity -= 10;
+            log("SPLAT! Too hot, structure damaged.", "err");
+            spawnParticles(state.billetX, canvas.height * 0.65, 8, "magma");
+        }
+
+        // Constraints
+        if(state.integrity <= 0) failGame("Shattered!", "Structural integrity reached 0%. The part broke.");
+        if(state.shape >= 100) winGame();
+
+        // Update Bars
+        ui.shapeBar.style.width = Math.min(state.shape, 100) + "%";
+        ui.shapeTxt.innerText = Math.min(state.shape, 100) + "%";
+    }
+
+    // --- DRAWING ---
+    function draw() {
+        ctx.save();
+        // Screen Shake
+        if(state.shake > 0) {
+            ctx.translate((Math.random()-0.5)*state.shake, (Math.random()-0.5)*state.shake);
+        }
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+
+        const floorY = canvas.height * 0.65;
+
+        // Environment
+        drawFloor(floorY);
+        drawFurnace(canvas.width * 0.25, floorY);
+        drawAnvil(canvas.width * 0.7, floorY);
+        drawBillet(state.billetX, floorY - 5, state.billetWidth, state.billetHeight);
+        
+        // Hammer (Swinging)
+        drawHammer(canvas.width * 0.7, floorY - 25, state.hammerAngle);
+
+        // Particles
+        updateAndDrawParticles();
+
+        ctx.restore();
+    }
+
+    function drawFloor(y) {
+        ctx.fillStyle = "#94a3b8";
+        ctx.fillRect(0, y, canvas.width, canvas.height - y);
+        ctx.strokeStyle = "#64748b";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+    }
+
+    function drawFurnace(x, y) {
+        ctx.fillStyle = "#334155";
+        ctx.fillRect(x - 60, y - 120, 120, 120);
+        ctx.fillStyle = "#1a1a1a";
+        ctx.fillRect(x - 30, y - 80, 60, 60); 
+
+        // Fire
+        const intensity = state.isHeating ? 1.0 : 0.3;
+        ctx.globalAlpha = intensity;
+        ctx.fillStyle = "#f59e0b";
+        ctx.beginPath();
+        ctx.arc(x, y - 50, 25 + Math.random()*5, 0, Math.PI*2);
+        ctx.fill();
+        
+        // Glow
+        const grad = ctx.createRadialGradient(x, y-50, 10, x, y-50, 60);
+        grad.addColorStop(0, "rgba(255, 100, 0, 0.8)");
+        grad.addColorStop(1, "rgba(255, 100, 0, 0)");
+        ctx.fillStyle = grad;
+        ctx.fillRect(x - 70, y - 130, 140, 140);
+        ctx.globalAlpha = 1.0;
+        ctx.strokeStyle = "#475569";
+        ctx.strokeRect(x-60, y-120, 120, 120);
+    }
+
+    function drawAnvil(x, y) {
+        ctx.fillStyle = "#475569";
+        ctx.fillRect(x - 50, y - 60, 100, 20); 
+        ctx.beginPath();
+        ctx.moveTo(x - 50, y - 60);
+        ctx.lineTo(x - 90, y - 55);
+        ctx.lineTo(x - 50, y - 40);
+        ctx.fill();
+        ctx.fillRect(x - 30, y - 40, 60, 40);
+        ctx.fillRect(x - 60, y, 120, 10);
+    }
+
+    function drawBillet(x, y, w, h) {
+        let color = "#64748b"; 
+        let glow = 0;
+
+        if(state.temp > 500) color = "#7f1d1d"; 
+        if(state.temp > 700) color = "#b91c1c"; 
+        if(state.temp > 900) { color = "#ea580c"; glow = 10; }
+        if(state.temp > 1100) { color = "#facc15"; glow = 20; }
+        if(state.temp > 1300) { color = "#ffffff"; glow = 40; }
+
+        ctx.save();
+        ctx.shadowBlur = glow;
+        ctx.shadowColor = color;
+        ctx.fillStyle = color;
+        ctx.fillRect(x - w/2, y - h, w, h);
+        ctx.strokeStyle = "rgba(0,0,0,0.3)";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x - w/2, y - h, w, h);
+        ctx.restore();
+    }
+
+    function drawHammer(targetX, targetY, angle) {
+        // Pivot Point (Top Right relative to anvil)
+        const pivotX = targetX + 50; 
+        const pivotY = targetY - 80;
+
+        ctx.save();
+        ctx.translate(pivotX, pivotY);
+        ctx.rotate(angle);
+
+        // Draw Arm/Handle extending leftwards to the target
+        // When angle is 0, head should be at (targetX, targetY)
+        // The distance from pivot(x+50, y-80) to target(x, y) is roughly dx=-50, dy=80.
+        // Let's approximate geometry for a good swing arc.
+        
+        // Handle
+        ctx.fillStyle = "#a16207"; // Wood
+        // Handle goes from (0,0) to (-80, 80) roughly?
+        // Let's draw a straight handle
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(-60, 80); // Handle length
+        ctx.lineWidth = 12;
+        ctx.strokeStyle = "#a16207";
+        ctx.stroke();
+
+        // Head
+        ctx.translate(-60, 80); // Move to end of handle
+        // Rotate head to be perpendicular to motion
+        ctx.rotate(0.3); 
+        
+        // Draw Head
+        const grad = ctx.createLinearGradient(-20, -15, 20, 15);
+        grad.addColorStop(0, "#334155");
+        grad.addColorStop(0.5, "#64748b");
+        grad.addColorStop(1, "#1e293b");
+        ctx.fillStyle = grad;
+        
+        // Hammer Head Shape
+        ctx.beginPath();
+        ctx.roundRect(-30, -15, 60, 30, 4); // Head is centered at handle end
+        ctx.fill();
+        
+        // Strike Face (The part that hits)
+        ctx.fillStyle = "#cbd5e1";
+        ctx.fillRect(-10, 10, 20, 5); 
+
+        ctx.restore();
+    }
+
+    // --- PARTICLES ---
+    class Particle {
+        constructor(x, y, type) {
+            this.x = x;
+            this.y = y;
+            this.vx = (Math.random() - 0.5) * 10;
+            this.vy = (Math.random() - 1) * 10;
+            this.life = 1.0;
+            this.type = type;
+        }
+        update() {
+            this.vy += 0.8;
+            this.x += this.vx;
+            this.y += this.vy;
+            if(this.y > canvas.height * 0.65) {
+                this.y = canvas.height * 0.65;
+                this.vy *= -0.6;
+            }
+            this.life -= 0.03;
+        }
+        draw() {
+            ctx.globalAlpha = this.life;
+            if(this.type === "spark") ctx.fillStyle = "#facc15";
+            if(this.type === "dust") ctx.fillStyle = "#94a3b8";
+            if(this.type === "magma") ctx.fillStyle = "#ef4444";
+            ctx.fillRect(this.x, this.y, 4, 4);
+            ctx.globalAlpha = 1.0;
+        }
+    }
+
+    function spawnParticles(x, y, count, type) {
+        for(let i=0; i<count; i++) particles.push(new Particle(x, y, type));
+    }
+
+    function updateAndDrawParticles() {
+        if(state.isHeating && Math.random() > 0.5) {
+            ctx.fillStyle = `rgba(255, ${Math.random()*150}, 0, ${Math.random()})`;
+            let fx = (canvas.width*0.25) + (Math.random()-0.5)*40;
+            let fy = (canvas.height*0.65) - 50 - (Math.random()*30);
+            ctx.fillRect(fx, fy, 4, 4);
+        }
+        for(let i = particles.length - 1; i >= 0; i--) {
+            let p = particles[i];
+            p.update();
+            p.draw();
+            if(p.life <= 0) particles.splice(i, 1);
+        }
+    }
+
+    function updateVisuals() { }
+
+    // --- LOGGING ---
+    function log(msg, type="info") {
+        const div = document.createElement('div');
+        div.className = "log-entry";
+        if(type === "warn") div.classList.add('log-warn');
+        if(type === "err") div.classList.add('log-err');
+        div.innerText = "> " + msg;
+        ui.log.prepend(div);
+    }
+
+    // --- GAME ENDING ---
+    function failGame(title, msg) {
+        state.gameOver = true;
+        ui.endTitle.innerText = title;
+        ui.endTitle.style.color = "#ef4444";
+        ui.endMsg.innerText = msg;
+        ui.overlay.style.display = "flex";
+    }
+
+    function winGame() {
+        state.gameOver = true;
+        ui.endTitle.innerText = "Forging Complete!";
+        ui.endTitle.style.color = "#22c55e";
+        ui.endMsg.innerText = "You successfully forged the component with excellent grain structure.";
+        ui.overlay.style.display = "flex";
+    }
+
+    function resetSim() {
+        state.gameOver = false;
+        state.temp = 25;
+        state.integrity = 100;
+        state.shape = 0;
+        state.billetWidth = 60;
+        state.billetHeight = 30;
+        state.warned = false;
+        
+        ui.overlay.style.display = "none";
+        ui.shapeBar.style.width = "0%";
+        ui.log.innerHTML = '<div class="log-entry">> System Reset.</div><div class="log-entry" style="color:#0ea5e9;">> MAX TEMPERATURE: 1500°C</div>';
+        
+        loop();
+    }
+
+    resize();
+    loop();
+
+</script>
+</body>
+</html>
